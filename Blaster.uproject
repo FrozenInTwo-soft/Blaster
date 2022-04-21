@@ -54,5 +54,8 @@
 			"Name": "SoundUtilities",
 			"Enabled": true
 		}
+	],
+	"TargetPlatforms": [
+		"Windows"
 	]
 }

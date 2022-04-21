@@ -95,7 +95,6 @@ void UMultiplayerSessionsSubsystem::JoinSession(const FOnlineSessionSearchResult
 
 		MultiplayerOnJoinSessionComplete.Broadcast(EOnJoinSessionCompleteResult::UnknownError);
 	}
-	
 }
 
 void UMultiplayerSessionsSubsystem::DestroySession()

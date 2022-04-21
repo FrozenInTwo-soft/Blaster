@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blaster/BlasterTypes/TurningInPlace.h"
-#include "GameFramework/Character.h"
-#include "Components/TimelineComponent.h"
-#include "Blaster/Interfaces/InteractWithCrosshairsInterface.h"
 #include "Blaster/BlasterTypes/CombatState.h"
+#include "Blaster/BlasterTypes/TurningInPlace.h"
+#include "Blaster/Interfaces/InteractWithCrosshairsInterface.h"
+#include "Components/TimelineComponent.h"
+#include "GameFramework/Character.h"
 #include "BlasterCharacter.generated.h"
 
 UCLASS()

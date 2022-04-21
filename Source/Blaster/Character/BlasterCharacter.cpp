@@ -6,10 +6,11 @@
 #include "TimerManager.h"
 #include "Blaster/Blaster.h"
 #include "Blaster/BlasterComponents/CombatComponent.h"
-#include "Blaster/BlasterTypes/TurningInPlace.h"
 #include "Blaster/GameMode/BlasterGameMode.h"
 #include "Blaster/Player/BlasterPlayerController.h"
+#include "Blaster/Player/BlasterPlayerState.h"
 #include "Blaster/Weapon/Weapon.h"
+#include "Blaster/Weapon/WeaponTypes.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/WidgetComponent.h"
@@ -19,8 +20,7 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "Net/UnrealNetwork.h"
 #include "Particles/ParticleSystemComponent.h"
-#include "Blaster/Player/BlasterPlayerState.h"
-#include "Blaster/Weapon/WeaponTypes.h"
+#include "Sound/SoundBase.h"
 
 ABlasterCharacter::ABlasterCharacter()
 {
