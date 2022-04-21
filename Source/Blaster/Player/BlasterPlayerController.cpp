@@ -137,7 +137,7 @@ void ABlasterPlayerController::SetHUDScore(float Score)
 	}
 }
 
-void ABlasterPlayerController::SetHUDDefeats(float Defeats)
+void ABlasterPlayerController::SetHUDDefeats(int32 Defeats)
 {
 	BlasterHUD = BlasterHUD == nullptr ? Cast<ABlasterHUD>(GetHUD()) : BlasterHUD;
 	bool bHUDValid = BlasterHUD &&
@@ -145,7 +145,7 @@ void ABlasterPlayerController::SetHUDDefeats(float Defeats)
 		BlasterHUD->CharacterOverlay->DefeatsAmount;
 	if(bHUDValid)
 	{
-		FString DefeatsText = FString::Printf(TEXT("%d"), FMath::FloorToInt(Defeats));
+		FString DefeatsText = FString::Printf(TEXT("%d"), Defeats);
 		BlasterHUD->CharacterOverlay->DefeatsAmount->SetText(FText::FromString(DefeatsText));
 	}
 	else
@@ -232,7 +232,7 @@ void ABlasterPlayerController::SetHUDTime()
 	else if(MatchState == MatchState::Cooldown) TimeLeft = CooldownTime + WarmupTime + MatchTime - GetServerTime() + LevelStartingTime;
 	
 	uint32 SecondsLeft = FMath::CeilToInt(TimeLeft);
-/*
+
 	if(HasAuthority())
 	{
 		BlasterGameMode = BlasterGameMode == nullptr ? Cast<ABlasterGameMode>(UGameplayStatics::GetGameMode(this)) : BlasterGameMode;
@@ -240,7 +240,7 @@ void ABlasterPlayerController::SetHUDTime()
 		{
 			SecondsLeft = FMath::CeilToInt(BlasterGameMode->GetCountdownTime() + LevelStartingTime);
 		}
-	}*/
+	}
 	
 	if(CountdownInt != SecondsLeft)
 	{
@@ -289,8 +289,7 @@ void ABlasterPlayerController::ServerRequestServerTime_Implementation(float Time
 	ClientReportServerTime(TimeOfClientRequest, ServerTimeOfReceipt);
 }
 
-void ABlasterPlayerController::ClientReportServerTime_Implementation(float TimeOfClientRequest,
-	float TimeServerReceivedClientRequest)
+void ABlasterPlayerController::ClientReportServerTime_Implementation(float TimeOfClientRequest, float TimeServerReceivedClientRequest)
 {
 	if (GEngine)
 	{
@@ -392,11 +391,11 @@ void ABlasterPlayerController::HandleCooldown()
 				}
 				else if(TopPlayers.Num() == 1)
 				{
-					InfoTextString = FString::Printf(TEXT("Winner: \n%s"), *TopPlayers[0]->GetPlayerName());
+					InfoTextString = FString::Printf(TEXT("Winner:\n%s"), *TopPlayers[0]->GetPlayerName());
 				}
 				else if(TopPlayers.Num() > 1)
 				{
-					InfoTextString = FString("Players tied for the win: \n");
+					InfoTextString = FString("Players tied for the win:\n");
 					for(auto TiedPlayer : TopPlayers)
 					{
 						InfoTextString.Append(FString::Printf(TEXT("%s\n"), *TiedPlayer->GetPlayerName()));

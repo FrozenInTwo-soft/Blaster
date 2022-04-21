@@ -58,7 +58,7 @@ protected:
 	UFUNCTION()
 	void ReceiveDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, class AController* InstigatorController, AActor* DamageCauser);
 	void UpdateHUDHealth();
-	// Poll for any relevant classes and intiailize HUD
+	// Poll for any relevant classes and initialize HUD
 	void PollInit();
 	void RotateInPlace(float DeltaTime);
 	

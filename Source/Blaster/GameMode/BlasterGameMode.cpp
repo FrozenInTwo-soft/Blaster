@@ -19,7 +19,7 @@ ABlasterGameMode::ABlasterGameMode()
 	bDelayedStart = true;
 }
 
-inline void ABlasterGameMode::BeginPlay()
+void ABlasterGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -113,11 +113,11 @@ void ABlasterGameMode::RequestRespawn(ACharacter* ElimmedCharacter, AController*
 		ElimmedCharacter->Reset();
 		ElimmedCharacter->Destroy();
 	}
-	if(ElimmedCharacter)
+	if(ElimmedController)
 	{
 		TArray<AActor*> PlayerStarts;
 		UGameplayStatics::GetAllActorsOfClass(this, APlayerStart::StaticClass(), PlayerStarts);
-		int32 Selection = FMath::RandRange(0, PlayerStarts.Num()-1);
+		int32 Selection = FMath::RandRange(0, PlayerStarts.Num() - 1);
 		RestartPlayerAtPlayerStart(ElimmedController, PlayerStarts[Selection]);
 	}
 }
