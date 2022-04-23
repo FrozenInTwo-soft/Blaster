@@ -64,7 +64,7 @@ private:
 	FOnFindSessionsCompleteDelegate FindSessionsCompleteDelegate;
 	FDelegateHandle FindSessionsCompleteDelegateHandle;
 	FOnJoinSessionCompleteDelegate JoinSessionCompleteDelegate;
-	FDelegateHandle	JoinSessionCompleteDelegateHandle;
+	FDelegateHandle JoinSessionCompleteDelegateHandle;
 	FOnDestroySessionCompleteDelegate DestroySessionCompleteDelegate;
 	FDelegateHandle DestroySessionCompleteDelegateHandle;
 	FOnStartSessionCompleteDelegate StartSessionCompleteDelegate;

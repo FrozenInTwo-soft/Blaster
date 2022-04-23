@@ -55,6 +55,8 @@ protected:
 	void FireButtonReleased();
 	void PlayHitReactMontage();
 
+	void DropWeaponPressed();
+
 	UFUNCTION()
 	void ReceiveDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, class AController* InstigatorController, AActor* DamageCauser);
 	void UpdateHUDHealth();

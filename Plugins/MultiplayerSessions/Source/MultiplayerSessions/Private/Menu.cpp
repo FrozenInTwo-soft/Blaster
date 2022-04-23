@@ -56,12 +56,12 @@ bool UMenu::Initialize()
 
 	if(HostButton)
 	{
-		HostButton->OnClicked.AddDynamic(this, &UMenu::HostButtonClicked);
+		HostButton->OnClicked.AddDynamic(this, &ThisClass::HostButtonClicked);
 	}
 
 	if(JoinButton)
 	{
-		JoinButton->OnClicked.AddDynamic(this, &UMenu::JoinButtonClicked);
+		JoinButton->OnClicked.AddDynamic(this, &ThisClass::JoinButtonClicked);
 	}
 	
 	return true;
@@ -85,13 +85,13 @@ void UMenu::OnCreateSession(bool bWasSuccessful)
 	}
 	else
 	{
-		if (GEngine)
+		if(GEngine)
 		{
 			GEngine->AddOnScreenDebugMessage(
 				-1,
 				15.f,
 				FColor::Red,
-				FString(TEXT("Failed to Create Session!")));
+				FString(TEXT("Failed to Create session!")));
 		}
 		HostButton->SetIsEnabled(true);
 	}

@@ -60,7 +60,7 @@ private:
 	void DrawCrosshair(UTexture2D* Texture, FVector2D ViewportCenter, FVector2D Spread, FLinearColor CrosshairColor);
 
 	UPROPERTY(EditAnywhere)
-	float CorsshairSpreadMax = 16.f;
+	float CrosshairSpreadMax = 16.f;
 
 public:
 

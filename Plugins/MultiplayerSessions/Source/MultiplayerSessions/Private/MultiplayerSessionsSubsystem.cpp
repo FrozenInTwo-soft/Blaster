@@ -138,7 +138,7 @@ void UMultiplayerSessionsSubsystem::OnFindSessionsComplete(bool bWasSuccessful)
 
 	if(LastSessionSearch->SearchResults.Num() <= 0)
 	{
-		if (GEngine)
+		if(GEngine)
 		{
 			GEngine->AddOnScreenDebugMessage(
 				-1,

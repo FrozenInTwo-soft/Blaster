@@ -51,15 +51,8 @@ void ABlasterGameMode::Tick(float DeltaTime)
 		CountdownTime = CooldownTime + WarmupTime + MatchTime - GetWorld()->GetTimeSeconds() + LevelStartingTime;
 		if(CountdownTime <= 0.f)
 		{
-			if (GEngine)
-			{
-				GEngine->AddOnScreenDebugMessage(
-					-1,
-					2.f,
-					FColor::Blue,
-					FString(TEXT("Calling Restart"))
-				);
-			}
+			UE_LOG(LogTemp, Warning, TEXT("----Attempting Restart of game----"));
+			bUseSeamlessTravel = true;
 			RestartGame();
 		}
 	}
