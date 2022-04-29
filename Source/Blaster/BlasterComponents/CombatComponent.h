@@ -9,9 +9,7 @@
 #include "Components/ActorComponent.h"
 #include "CombatComponent.generated.h"
 
-#define TRACE_LENGTH 80000.f;
-
-class AWeapon;
+#define TRACE_LENGTH 80000.f
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BLASTER_API UCombatComponent : public UActorComponent
@@ -25,7 +23,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
-	void EquipWeapon(AWeapon* WeaponToEquip);
+	void EquipWeapon(class AWeapon* WeaponToEquip);
 	void Reload();
 	
 	UFUNCTION(BlueprintCallable)
@@ -66,7 +64,7 @@ protected:
 private:
 
 	UPROPERTY()
-	ABlasterCharacter* Character;
+	class ABlasterCharacter* Character;
 	UPROPERTY()
 	class ABlasterPlayerController* Controller;
 	UPROPERTY()
@@ -87,7 +85,7 @@ private:
 	bool bFireButtonPressed;
 
 	/*
-	 * HUD and Crosshairs
+	 * HUD and crosshairs
 	 */
 
 	float CrosshairVelocityFactor;
@@ -100,7 +98,7 @@ private:
 	FHUDPackage HUDPackage;
 
 	/*
-	 * Aiming And FOV
+	 * Aiming and FOV
 	 */
 
 	// Field of view when not aiming; set to the camera's FOV in BeginPlay

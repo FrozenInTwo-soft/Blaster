@@ -7,7 +7,7 @@
 
 void UOverheadWidget::SetDisplayText(FString TextToDisplay)
 {
-	if(DisplayText)
+	if (DisplayText)
 	{
 		DisplayText->SetText(FText::FromString(TextToDisplay));
 	}
@@ -23,10 +23,10 @@ void UOverheadWidget::ShowPlayerNetRole(APawn* InPawn)
 		Role = FString("Authority");
 		break;
 	case ENetRole::ROLE_AutonomousProxy:
-		Role = FString("AutonomousProxy");
+		Role = FString("Autonomous Proxy");
 		break;
 	case ENetRole::ROLE_SimulatedProxy:
-		Role = FString("SimulatedProxy");
+		Role = FString("Simulated Proxy");
 		break;
 	case ENetRole::ROLE_None:
 		Role = FString("None");

@@ -6,6 +6,7 @@
 #include "Blaster/GameState/BlasterGameState.h"
 #include "Blaster/Player/BlasterPlayerController.h"
 #include "Blaster/Player/BlasterPlayerState.h"
+#include "Blueprint/UserWidget.h"
 #include "GameFramework/PlayerStart.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -30,26 +31,35 @@ void ABlasterGameMode::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if(MatchState == MatchState::WaitingToStart)
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(
+			-1,
+			0.f,
+			FColor::Blue,
+			FString::Printf(TEXT("Countdown Time: %.1f"), CountdownTime));
+	}
+
+	if (MatchState == MatchState::WaitingToStart)
 	{
 		CountdownTime = WarmupTime - GetWorld()->GetTimeSeconds() + LevelStartingTime;
-		if(CountdownTime <= 0.f)
+		if (CountdownTime <= 0.f)
 		{
 			StartMatch();
 		}
 	}
-	else if(MatchState == MatchState::InProgress)
+	else if (MatchState == MatchState::InProgress)
 	{
 		CountdownTime = WarmupTime + MatchTime - GetWorld()->GetTimeSeconds() + LevelStartingTime;
-		if(CountdownTime <= 0.f)
+		if (CountdownTime <= 0.f)
 		{
 			SetMatchState(MatchState::Cooldown);
 		}
 	}
-	else if(MatchState == MatchState::Cooldown)
+	else if (MatchState == MatchState::Cooldown)
 	{
 		CountdownTime = CooldownTime + WarmupTime + MatchTime - GetWorld()->GetTimeSeconds() + LevelStartingTime;
-		if(CountdownTime <= 0.f)
+		if (CountdownTime <= 0.f)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("----Attempting Restart of game----"));
 			bUseSeamlessTravel = true;
@@ -62,38 +72,74 @@ void ABlasterGameMode::OnMatchStateSet()
 {
 	Super::OnMatchStateSet();
 
-	for(FConstPlayerControllerIterator It = GetWorld()->GetPlayerControllerIterator(); It; ++It)
+	for (FConstPlayerControllerIterator It = GetWorld()->GetPlayerControllerIterator(); It; ++It)
 	{
 		ABlasterPlayerController* BlasterPlayer = Cast<ABlasterPlayerController>(*It);
-		if(BlasterPlayer)
+		if (BlasterPlayer)
 		{
 			BlasterPlayer->OnMatchStateSet(MatchState);
 		}
 	}
 }
 
-void ABlasterGameMode::PlayerEliminated(ABlasterCharacter* ElimmedCharacter, ABlasterPlayerController* VictimController,
+APlayerController* ABlasterGameMode::ProcessClientTravel(FString& FURL, bool bSeamless, bool bAbsolute)
+{
+	// We call PreClientTravel directly on any local PlayerPawns (ie listen server)
+	APlayerController* LocalPlayerController = nullptr;
+	for (FConstPlayerControllerIterator Iterator = GetWorld()->GetPlayerControllerIterator(); Iterator; ++Iterator)
+	{
+		if (APlayerController* PlayerController = Iterator->Get())
+		{
+			if (Cast<UNetConnection>(PlayerController->Player) != nullptr)
+			{
+				ABlasterPlayerController* BlasterPlayer = Cast<ABlasterPlayerController>(PlayerController);
+				if (BlasterPlayer)
+				{
+					BlasterPlayer->ClearHUDWidgets();
+				}
+				
+				// Remote player
+				PlayerController->ClientTravel(FURL, TRAVEL_Relative, bSeamless);
+			}
+			else
+			{
+				ABlasterPlayerController* BlasterPlayer = Cast<ABlasterPlayerController>(PlayerController);
+				if (BlasterPlayer)
+				{
+					BlasterPlayer->ClearHUDWidgets();
+				}
+				
+				// Local player
+				LocalPlayerController = PlayerController;
+				PlayerController->PreClientTravel(FURL, bAbsolute ? TRAVEL_Absolute : TRAVEL_Relative, bSeamless);
+			}
+		}
+	}
+
+	return LocalPlayerController;
+}
+
+void ABlasterGameMode::PlayerEliminated(class ABlasterCharacter* ElimmedCharacter, class ABlasterPlayerController* VictimController,
                                         ABlasterPlayerController* AttackerController)
 {
-	if(AttackerController == nullptr || AttackerController->PlayerState == nullptr) return;
-	if(VictimController == nullptr || VictimController->PlayerState == nullptr) return;
+	if (AttackerController == nullptr || AttackerController->PlayerState == nullptr) return;
+	if (VictimController == nullptr || VictimController->PlayerState == nullptr) return;
 	ABlasterPlayerState* AttackerPlayerState = AttackerController ? Cast<ABlasterPlayerState>(AttackerController->PlayerState) : nullptr;
 	ABlasterPlayerState* VictimPlayerState = VictimController ? Cast<ABlasterPlayerState>(VictimController->PlayerState) : nullptr;
 
 	ABlasterGameState* BlasterGameState = GetGameState<ABlasterGameState>();
 	
-	if(AttackerPlayerState && AttackerPlayerState != VictimPlayerState && BlasterGameState)
+	if (AttackerPlayerState && AttackerPlayerState != VictimPlayerState && BlasterGameState)
 	{
 		AttackerPlayerState->AddToScore(1.f);
 		BlasterGameState->UpdateTopScore(AttackerPlayerState);
 	}
-
-	if(VictimPlayerState)
+	if (VictimPlayerState)
 	{
 		VictimPlayerState->AddToDefeats(1);
 	}
-	
-	if(ElimmedCharacter)
+
+	if (ElimmedCharacter)
 	{
 		ElimmedCharacter->Elim();
 	}
@@ -101,12 +147,12 @@ void ABlasterGameMode::PlayerEliminated(ABlasterCharacter* ElimmedCharacter, ABl
 
 void ABlasterGameMode::RequestRespawn(ACharacter* ElimmedCharacter, AController* ElimmedController)
 {
-	if(ElimmedCharacter)
+	if (ElimmedCharacter)
 	{
 		ElimmedCharacter->Reset();
 		ElimmedCharacter->Destroy();
 	}
-	if(ElimmedController)
+	if (ElimmedController)
 	{
 		TArray<AActor*> PlayerStarts;
 		UGameplayStatics::GetAllActorsOfClass(this, APlayerStart::StaticClass(), PlayerStarts);

@@ -33,7 +33,7 @@ void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if(Tracer)
+	if (Tracer)
 	{
 		TracerComponent = UGameplayStatics::SpawnEmitterAttached(
 			Tracer,
@@ -44,7 +44,7 @@ void AProjectile::BeginPlay()
 			EAttachLocation::KeepWorldPosition);
 	}
 
-	if(HasAuthority())
+	if (HasAuthority())
 	{
 		CollisionBox->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
 	}
@@ -66,11 +66,11 @@ inline void AProjectile::Destroyed()
 {
 	Super::Destroyed();
 
-	if(ImpactParticles)
+	if (ImpactParticles)
 	{
 		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactParticles, GetActorTransform());
 	}
-	if(ImpactSound)
+	if (ImpactSound)
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, ImpactSound, GetActorLocation());
 	}

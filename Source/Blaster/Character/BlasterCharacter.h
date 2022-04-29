@@ -19,7 +19,7 @@ public:
 
 	ABlasterCharacter();
 	virtual void Tick(float DeltaTime) override;
-    virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PostInitializeComponents() override;
 	void PlayFireMontage(bool bAiming);
@@ -37,7 +37,7 @@ public:
 protected:
 
 	virtual void BeginPlay() override;
-	
+
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 	void Turn(float Value);
@@ -96,7 +96,7 @@ private:
 	void TurnInPlace(float DeltaTime);
 
 	/*
-	 * Animation Montages
+	 * Animation montages
 	 */
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	class UAnimMontage* FireWeaponMontage;
@@ -124,7 +124,7 @@ private:
 	float CalculateSpeed();
 
 	/*
-	 * Player Health
+	 * Player health
 	 */
 
 	UPROPERTY(EditAnywhere, Category = "Player Stats")
@@ -172,7 +172,7 @@ private:
 	UMaterialInstance* DissolveMaterialInstance;
 
 	/*
-	 * Elim Bot
+	 * Elim bot
 	 */
 
 	UPROPERTY(EditAnywhere)

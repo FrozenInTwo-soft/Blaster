@@ -34,6 +34,9 @@ public:
 	void HandleCooldown();
 
 	float SingleTripTime = 0.f;
+
+	UFUNCTION(Client, Reliable)
+	void ClearHUDWidgets();
 	
 protected:
 
@@ -49,7 +52,7 @@ protected:
 	UFUNCTION(Server, Reliable)
 	void ServerRequestServerTime(float TimeOfClientRequest);
 
-	// Reports the current server time to the client in response the ServerRequestServerTime.
+	// Reports the current server time to the client in response to ServerRequestServerTime.
 	UFUNCTION(Client, Reliable)
 	void ClientReportServerTime(float TimeOfClientRequest, float TimeServerReceivedClientRequest);
 

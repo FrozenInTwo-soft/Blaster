@@ -6,7 +6,6 @@
 #include "GameFramework/GameState.h"
 #include "BlasterGameState.generated.h"
 
-class ABlasterPlayerState;
 
 /**
  * 
@@ -20,7 +19,7 @@ public:
 
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
-	void UpdateTopScore(ABlasterPlayerState* ScoringPlayer);
+	void UpdateTopScore(class ABlasterPlayerState* ScoringPlayer);
 	
 	UPROPERTY(Replicated)
 	TArray<ABlasterPlayerState*> TopScoringPlayers;

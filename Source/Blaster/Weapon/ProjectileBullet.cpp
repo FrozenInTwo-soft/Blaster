@@ -9,10 +9,10 @@ void AProjectileBullet::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, 
 	FVector NormalImpulse, const FHitResult& Hit)
 {
 	ACharacter* OwnerCharacter = Cast<ACharacter>(GetOwner());
-	if(OwnerCharacter)
+	if (OwnerCharacter)
 	{
 		AController* OwnerController = OwnerCharacter->Controller;
-		if(OwnerController)
+		if (OwnerController)
 		{
 			UGameplayStatics::ApplyDamage(OtherActor, Damage, OwnerController, this, UDamageType::StaticClass());
 		}
