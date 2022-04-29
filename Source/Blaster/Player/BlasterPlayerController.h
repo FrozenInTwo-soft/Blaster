@@ -35,9 +35,6 @@ public:
 
 	float SingleTripTime = 0.f;
 
-	UFUNCTION(Client, Reliable)
-	void ClearHUDWidgets();
-	
 protected:
 
 	virtual void BeginPlay() override;

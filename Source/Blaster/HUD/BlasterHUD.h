@@ -37,6 +37,7 @@ public:
 	UPROPERTY(EditAnywhere, Category = "Player Stats")
 	TSubclassOf<class UUserWidget> CharacterOverlayClass;
 	void AddCharacterOverlay();
+	void RemoveCharacterOverlay();
 
 	UPROPERTY()
 	class UCharacterOverlay* CharacterOverlay;

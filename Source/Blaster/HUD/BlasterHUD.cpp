@@ -21,6 +21,15 @@ void ABlasterHUD::AddCharacterOverlay()
 	}
 }
 
+void ABlasterHUD::RemoveCharacterOverlay()
+{
+	if(CharacterOverlay)
+	{
+		CharacterOverlay->RemoveFromParent();
+		CharacterOverlay = nullptr;
+	}
+}
+
 void ABlasterHUD::AddAnnouncement()
 {
 	APlayerController* PlayerController = GetOwningPlayerController();

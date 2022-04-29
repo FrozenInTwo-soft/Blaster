@@ -41,8 +41,6 @@ protected:
 
 	virtual void BeginPlay() override;
 	virtual void OnMatchStateSet() override;
-
-	virtual APlayerController* ProcessClientTravel(FString& URL, bool bSeamless, bool bAbsolute) override;
 	
 private:
 	

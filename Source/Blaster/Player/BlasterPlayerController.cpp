@@ -39,9 +39,9 @@ void ABlasterPlayerController::Tick(float DeltaSeconds)
 	CheckTimeSync(DeltaSeconds);
 	PollInit();
 
-	ENetRole myRemoteRole = GetRemoteRole();
+	ENetRole LocalRole = GetRemoteRole();
 	FString myRole;
-	switch (myRemoteRole)
+	switch (LocalRole)
 	{
 	case ENetRole::ROLE_Authority:
 		myRole = FString("Authority");
@@ -256,6 +256,14 @@ void ABlasterPlayerController::SetHUDTime()
 		if (BlasterGameMode)
 		{
 			SecondsLeft = FMath::CeilToInt(BlasterGameMode->GetCountdownTime() + LevelStartingTime);
+			if (GEngine)
+			{
+				GEngine->AddOnScreenDebugMessage(
+					-1,
+					0.f,
+					FColor::Blue,
+					FString::Printf(TEXT("Seconds on Server: %d"), SecondsLeft));
+			}
 		}
 	}
 	
@@ -270,7 +278,14 @@ void ABlasterPlayerController::SetHUDTime()
 			SetHUDMatchCountdown(TimeLeft);
 		}
 	}
-	
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(
+			-1,
+			0.f,
+			FColor::Blue,
+			FString::Printf(TEXT("Seconds left: %d :: Countdown: %d"), SecondsLeft, CountdownInt));
+	}
 	CountdownInt = SecondsLeft;
 }
 
@@ -364,7 +379,7 @@ void ABlasterPlayerController::HandleCooldown()
 	BlasterHUD = BlasterHUD == nullptr ? Cast<ABlasterHUD>(GetHUD()) : BlasterHUD;
 	if (BlasterHUD)
 	{
-		BlasterHUD->CharacterOverlay->RemoveFromParent();
+		BlasterHUD->RemoveCharacterOverlay();
 		bool bHUDValid = BlasterHUD->Announcement &&
 			BlasterHUD->Announcement->AnnouncementText &&
 			BlasterHUD->Announcement->InfoText;
@@ -410,18 +425,5 @@ void ABlasterPlayerController::HandleCooldown()
 	{
 		BlasterCharacter->bDisableGameplay = true;
 		BlasterCharacter->GetCombat()->FireButtonPressed(false);
-	}
-}
-
-void ABlasterPlayerController::ClearHUDWidgets_Implementation()
-{
-	for (TObjectIterator<UUserWidget> Itr; Itr; ++Itr)
-	{
-		UUserWidget* Widget = *Itr;
-
-		if (Widget->GetWorld())
-		{
-			Widget->RemoveFromParent();
-		}
 	}
 }

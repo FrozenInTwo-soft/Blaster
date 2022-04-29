@@ -82,43 +82,6 @@ void ABlasterGameMode::OnMatchStateSet()
 	}
 }
 
-APlayerController* ABlasterGameMode::ProcessClientTravel(FString& FURL, bool bSeamless, bool bAbsolute)
-{
-	// We call PreClientTravel directly on any local PlayerPawns (ie listen server)
-	APlayerController* LocalPlayerController = nullptr;
-	for (FConstPlayerControllerIterator Iterator = GetWorld()->GetPlayerControllerIterator(); Iterator; ++Iterator)
-	{
-		if (APlayerController* PlayerController = Iterator->Get())
-		{
-			if (Cast<UNetConnection>(PlayerController->Player) != nullptr)
-			{
-				ABlasterPlayerController* BlasterPlayer = Cast<ABlasterPlayerController>(PlayerController);
-				if (BlasterPlayer)
-				{
-					BlasterPlayer->ClearHUDWidgets();
-				}
-				
-				// Remote player
-				PlayerController->ClientTravel(FURL, TRAVEL_Relative, bSeamless);
-			}
-			else
-			{
-				ABlasterPlayerController* BlasterPlayer = Cast<ABlasterPlayerController>(PlayerController);
-				if (BlasterPlayer)
-				{
-					BlasterPlayer->ClearHUDWidgets();
-				}
-				
-				// Local player
-				LocalPlayerController = PlayerController;
-				PlayerController->PreClientTravel(FURL, bAbsolute ? TRAVEL_Absolute : TRAVEL_Relative, bSeamless);
-			}
-		}
-	}
-
-	return LocalPlayerController;
-}
-
 void ABlasterGameMode::PlayerEliminated(class ABlasterCharacter* ElimmedCharacter, class ABlasterPlayerController* VictimController,
                                         ABlasterPlayerController* AttackerController)
 {
