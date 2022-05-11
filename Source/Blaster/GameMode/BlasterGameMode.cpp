@@ -62,7 +62,7 @@ void ABlasterGameMode::Tick(float DeltaTime)
 		if (CountdownTime <= 0.f)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("----Attempting Restart of game----"));
-			bUseSeamlessTravel = true;
+			//bUseSeamlessTravel = true;
 			RestartGame();
 		}
 	}

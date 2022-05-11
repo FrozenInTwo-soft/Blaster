@@ -31,7 +31,7 @@ public:
 	void SetHUDAmmo();
 	void ShowPickupWidget(bool bShowWidget);
 	virtual void Fire(const FVector& HitTarget);
-	void Dropped();\
+	void Dropped();
 	void AddAmmo(int32 AmmoToAdd);
 
 	// Textures for the weapon crosshairs
@@ -73,6 +73,11 @@ public:
 
 	UPROPERTY(EditAnywhere)
 	class USoundBase* EquipSound;
+
+	/*
+	 * Enable/disable custom depth
+	 */
+	void EnableCustomDepth(bool bEnable);
 	
 protected:
 	
@@ -85,13 +90,16 @@ protected:
 		UPrimitiveComponent* OtherComp,
 		int32 OtherBodyIndex,
 		bool bFromSweep,
-		const FHitResult& SweepResult);
+		const FHitResult& SweepResult
+	);
 
 	UFUNCTION()
-	void OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent,
+	void OnSphereEndOverlap(
+		UPrimitiveComponent* OverlappedComponent,
 		AActor* OtherActor,
 		UPrimitiveComponent* OtherComp,
-		int32 OtherBodyIndex);
+		int32 OtherBodyIndex
+	);
 
 private:
 
@@ -143,6 +151,7 @@ public:
 	FORCEINLINE float GetZoomedFOV() const { return ZoomedFOV; }
 	FORCEINLINE float GetZoomInterpSpeed() const { return ZoomInterpSpeed; }
 	bool IsEmpty();
+	bool IsFull();
 	FORCEINLINE EWeaponType GetWeaponType() const { return WeaponType; }
 	FORCEINLINE int32 GetAmmo() const { return Ammo; }
 	FORCEINLINE int32 GetMagCapacity() const { return MagCapacity; }

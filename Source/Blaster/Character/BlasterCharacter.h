@@ -25,6 +25,7 @@ public:
 	void PlayFireMontage(bool bAiming);
 	void PlayReloadMontage();
 	void PlayElimMontage();
+	void PlayThrowGrenadeMontage();
 	virtual void OnRep_ReplicatedMovement() override;
 	void Elim();
 	UFUNCTION(NetMulticast, Reliable)
@@ -33,6 +34,9 @@ public:
 
 	UPROPERTY(Replicated)
 	bool bDisableGameplay = false;
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void ShowSniperScopeWidget(bool bShowScope);
 	
 protected:
 
@@ -47,6 +51,7 @@ protected:
 	void ReloadButtonPressed();
 	void AimButtonPressed();
 	void AimButtonReleased();
+	void GrenadeButtonPressed();
 	void CalculateAO_Pitch();
 	void AimOffset(float DeltaTime);
 	void SimProxiesTurn();
@@ -106,6 +111,9 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	UAnimMontage* HitReactMontage;
+
+	UPROPERTY(EditAnywhere, Category = "Combat")
+	UAnimMontage* ThrowGrenadeMontage;
 
 	UPROPERTY(EditAnywhere, Category = "Combat")
 	UAnimMontage* ElimMontage;
@@ -186,6 +194,13 @@ private:
 
 	UPROPERTY()
 	class ABlasterPlayerState* BlasterPlayerState;
+
+	/*
+	 * Grenade
+	 */
+
+	UPROPERTY(VisibleAnywhere)
+	UStaticMeshComponent* AttachedGrenade;
 	
 public:	
 
@@ -206,4 +221,6 @@ public:
 	ECombatState GetCombatState() const;
 	FORCEINLINE UCombatComponent* GetCombat() const { return Combat; }
 	FORCEINLINE bool GetDisableGameplay() const { return bDisableGameplay; }
+	FORCEINLINE UAnimMontage* GetReloadMontage() const { return ReloadMontage; }
+	FORCEINLINE UStaticMeshComponent* GetAttachedGrenade() const { return AttachedGrenade; }
 };

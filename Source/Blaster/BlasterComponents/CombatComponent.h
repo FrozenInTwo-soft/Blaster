@@ -9,8 +9,6 @@
 #include "Components/ActorComponent.h"
 #include "CombatComponent.generated.h"
 
-#define TRACE_LENGTH 80000.f
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BLASTER_API UCombatComponent : public UActorComponent
 {
@@ -30,6 +28,20 @@ public:
 	void FinishReloading();
 
 	void FireButtonPressed(bool bPressed);
+
+	UFUNCTION(BlueprintCallable)
+	void ShotgunShellReload();
+
+	void JumpToShotgunEnd();
+
+	UFUNCTION(BlueprintCallable)
+	void ThrowGrenadeFinished();
+
+	UFUNCTION(BlueprintCallable)
+	void LaunchGrenade();
+
+	UFUNCTION(Server, Reliable)
+	void ServerLaunchGrenade(const FVector_NetQuantize& Target);
 	
 protected:
 
@@ -60,6 +72,22 @@ protected:
 	void HandleReload();
 	
 	int32 AmountToReload();
+
+	void ThrowGrenade();
+
+	UFUNCTION(Server, Reliable)
+	void ServerThrowGrenade();
+
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class AProjectile> GrenadeClass;
+
+	void DropEquippedWeapon();
+	void AttachActorToRightHand(AActor* ActorToAttach);
+	void AttachActorToLeftHand(AActor* ActorToAttach);
+	void UpdateCarriedAmmo();
+	void PlayEquippedWeaponSound();
+	void ReloadEmptyWeapon();
+	void ShowAttachedGrenade(bool bShowGrenade);
 
 private:
 
@@ -134,9 +162,26 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	int32 StartingARAmmo = 30;
+
+	UPROPERTY(EditAnywhere)
+	int32 StartingRocketAmmo = 0;
+
+	UPROPERTY(EditAnywhere)
+	int32 StartingPistolAmmo = 0;
+
+	UPROPERTY(EditAnywhere)
+	int32 StartingSMGAmmo = 0;
+	
+	UPROPERTY(EditAnywhere)
+	int32 StartingShotgunAmmo = 0;
+
+	UPROPERTY(EditAnywhere)
+	int32 StartingSniperAmmo = 0;
+
+	UPROPERTY(EditAnywhere)
+	int32 StartingGrenadeLauncherAmmo = 0;
 	
 	void InitializeCarriedAmmo();
-	void UpdateAmmoValues();
 
 	UPROPERTY(ReplicatedUsing = OnRep_CombatState)
 	ECombatState CombatState = ECombatState::ECS_Unoccupied;
@@ -144,9 +189,20 @@ private:
 	UFUNCTION()
 	void OnRep_CombatState();
 	
+	void UpdateAmmoValues();
+	void UpdateShotgunAmmoValues();
+
+	UPROPERTY(ReplicatedUsing = OnRep_Grenades)
+	int32 Grenades = 4;
+
+	UFUNCTION()
+	void OnRep_Grenades();
+	
+	UPROPERTY(EditAnywhere)
+	int32 MaxGrenades = 4;
+
+	void UpdateHUDGrenades();
 public:	
 
-	
-
-		
+	FORCEINLINE int32 GetGrenades() const { return Grenades; }		
 };
