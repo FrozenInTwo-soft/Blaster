@@ -15,7 +15,6 @@ class BLASTER_API UCombatComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-
 	UCombatComponent();
 	friend class ABlasterCharacter;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -42,9 +41,10 @@ public:
 
 	UFUNCTION(Server, Reliable)
 	void ServerLaunchGrenade(const FVector_NetQuantize& Target);
+
+	void PickupAmmo(EWeaponType WeaponType, int32 AmmoAmount);
 	
 protected:
-
 	virtual void BeginPlay() override;
 
 	void SetAiming(bool bIsAiming);
@@ -90,7 +90,6 @@ protected:
 	void ShowAttachedGrenade(bool bShowGrenade);
 
 private:
-
 	UPROPERTY()
 	class ABlasterCharacter* Character;
 	UPROPERTY()
@@ -161,6 +160,9 @@ private:
 	TMap<EWeaponType, int32> CarriedAmmoMap;
 
 	UPROPERTY(EditAnywhere)
+	int32 MaxCarriedAmmo = 500;
+
+	UPROPERTY(EditAnywhere)
 	int32 StartingARAmmo = 30;
 
 	UPROPERTY(EditAnywhere)
@@ -202,7 +204,7 @@ private:
 	int32 MaxGrenades = 4;
 
 	void UpdateHUDGrenades();
+	
 public:	
-
 	FORCEINLINE int32 GetGrenades() const { return Grenades; }		
 };

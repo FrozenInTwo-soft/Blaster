@@ -283,7 +283,7 @@ void ABlasterPlayerController::SetHUDTime()
 			}
 		}
 	}
-	
+
 	if (CountdownInt != SecondsLeft)
 	{
 		if (MatchState == MatchState::WaitingToStart || MatchState == MatchState::Cooldown)

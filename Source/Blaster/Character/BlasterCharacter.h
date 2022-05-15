@@ -16,7 +16,6 @@ class BLASTER_API ABlasterCharacter : public ACharacter, public IInteractWithCro
 	GENERATED_BODY()
 
 public:
-
 	ABlasterCharacter();
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
@@ -39,7 +38,6 @@ public:
 	void ShowSniperScopeWidget(bool bShowScope);
 	
 protected:
-
 	virtual void BeginPlay() override;
 
 	void MoveForward(float Value);
@@ -70,7 +68,6 @@ protected:
 	void RotateInPlace(float DeltaTime);
 	
 private:
-
 	UPROPERTY(VisibleAnywhere, Category = "Camera")
 	class USpringArmComponent* CameraBoom;
 
@@ -202,8 +199,7 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* AttachedGrenade;
 	
-public:	
-
+public:
 	void SetOverlappingWeapon(AWeapon* Weapon);
 	bool IsWeaponEquipped();
 	bool IsAiming();
