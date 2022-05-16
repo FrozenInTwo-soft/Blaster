@@ -62,8 +62,13 @@ void ABlasterGameMode::Tick(float DeltaTime)
 		if (CountdownTime <= 0.f)
 		{
 			UE_LOG(LogTemp, Warning, TEXT("----Attempting Restart of game----"));
-			//bUseSeamlessTravel = true;
-			RestartGame();
+			UWorld* World = GetWorld();
+			if (World)
+			{
+				bUseSeamlessTravel = true;
+				World->ServerTravel(FString("/Game/Maps/Gym?listen"));
+			}
+			//RestartGame();
 		}
 	}
 }
