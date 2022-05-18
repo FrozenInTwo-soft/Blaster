@@ -39,6 +39,7 @@ public:
 
 	void UpdateHUDHealth();
 	void UpdateHUDShield();
+	void UpdateHUDAmmo();
 	
 protected:
 	virtual void BeginPlay() override;
@@ -48,6 +49,7 @@ protected:
 	void Turn(float Value);
 	void LookUp(float Value);
 	void EquipButtonPressed();
+	void SwapButtonPressed();
 	void CrouchButtonPressed();
 	void ReloadButtonPressed();
 	void AimButtonPressed();
@@ -60,6 +62,8 @@ protected:
 	void FireButtonPressed();
 	void FireButtonReleased();
 	void PlayHitReactMontage();
+	void DropOrDestroyWeapon(class AWeapon* Weapon);
+	void DropOrDestroyWeapons();
 
 	void DropWeaponPressed();
 
@@ -94,6 +98,9 @@ private:
 	UFUNCTION(Server, Reliable)
 	void ServerEquipButtonPressed();
 
+	UFUNCTION(Server, Reliable)
+	void ServerSwapButtonPressed();
+	
 	float AO_Yaw;
 	float InterpAO_Yaw;
 	float AO_Pitch;
