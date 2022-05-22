@@ -46,7 +46,9 @@ public:
 	void PickupAmmo(EWeaponType WeaponType, int32 AmmoAmount);
 
 	void SpawnDefaultWeapon();
-	
+
+	bool bLocallyReloading = false;
+		
 protected:
 	virtual void BeginPlay() override;
 
