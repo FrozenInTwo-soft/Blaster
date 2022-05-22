@@ -18,13 +18,22 @@ enum class EWeaponState : uint8
 	EWS_MAX UMETA(DisplayName = "DefaultMAX")
 };
 
+UENUM(BlueprintType)
+enum class EFireType : uint8
+{
+	EFT_HitScan UMETA(DisplayName = "HitScan Weapon"),
+	EFT_Projectile UMETA(DisplayName = "projectile Weapon"),
+	EFT_Shotgun UMETA(DisplayName = "Shotgun Weapon"),
+
+	EFT_MAX UMETA(DisplayName = "DefaultMAX")
+};
+
 UCLASS()
 class BLASTER_API AWeapon : public AActor
 {
 	GENERATED_BODY()
 	
-public:	
-
+public:
 	AWeapon();
 	virtual void Tick(float DeltaTime) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
@@ -34,6 +43,7 @@ public:
 	virtual void Fire(const FVector& HitTarget);
 	void Dropped();
 	void AddAmmo(int32 AmmoToAdd);
+	FVector TraceEndWithScatter(const FVector& HitTarget);
 
 	// Textures for the weapon crosshairs
 
@@ -80,10 +90,15 @@ public:
 	 */
 	void EnableCustomDepth(bool bEnable);
 
-	bool bDestroyWeapon = false; 
+	bool bDestroyWeapon = false;
+
+	UPROPERTY(EditAnywhere)
+	EFireType FireType;
+
+	UPROPERTY(EditAnywhere, Category = "Weapon Scatter")
+	bool bUseScatter = false;
 	
 protected:
-	
 	virtual void BeginPlay() override;
 	virtual void OnWeaponStateSet();
 	virtual void OnEquipped();
@@ -108,8 +123,17 @@ protected:
 		int32 OtherBodyIndex
 	);
 
-private:
+	/*
+	 * Trace end with scatter
+	 */
 
+	UPROPERTY(EditAnywhere, Category = "Weapon Scatter")
+	float DistanceToSphere = 800.f;
+
+	UPROPERTY(EditAnywhere, Category = "Weapon Scatter")
+	float SphereRadius = 75.f;
+
+private:
 	UPROPERTY(VisibleAnywhere, Category = "Weapon Properties")
 	USkeletalMeshComponent* WeaponMesh;
 
@@ -150,8 +174,9 @@ private:
 	UPROPERTY(EditAnywhere)
 	EWeaponType WeaponType;
 
-public:	
+	
 
+public:	
 	void SetWeaponState(EWeaponState State);
 	FORCEINLINE USphereComponent* GetAreaSphere() const { return AreaSphere; }
 	FORCEINLINE USkeletalMeshComponent* GetWeaponMesh() const { return WeaponMesh; }
