@@ -12,13 +12,22 @@ class BLASTER_API AProjectile : public AActor
 	GENERATED_BODY()
 	
 public:
-	
 	AProjectile();
 	virtual void Tick(float DeltaTime) override;
 	virtual void Destroyed() override;
 
-protected:
+	/*
+	 * Used with server-side rewind
+	 */
+
+	bool bUseServerSideRewind = false;
+	FVector_NetQuantize TraceStart;
+	FVector_NetQuantize100 InitialVelocity;
+
+	UPROPERTY(EditAnywhere)
+	float InitialSpeed = 15000;
 	
+protected:
 	virtual void BeginPlay() override;
 	void StartDestroyTimer();
 	void DestoyTimerFinished();
@@ -60,7 +69,6 @@ protected:
 	float OuterRadius{500.f};
 
 private:
-
 	UPROPERTY(EditAnywhere)
 	UParticleSystem* Tracer;
 
