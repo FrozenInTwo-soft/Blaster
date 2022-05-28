@@ -76,12 +76,23 @@ public:
 	 * Rewinds
 	 */
 	
+	// Hitscan
 	FServerSideRewindResult ServerSideRewind(
 		class ABlasterCharacter* HitCharacter,
 		const FVector_NetQuantize& TraceStart,
 		const FVector_NetQuantize& HitLocation,
-		float HitTime);
+		float HitTime
+	);
 
+	// Projectile
+	FServerSideRewindResult ProjectileServerSideRewind(
+		ABlasterCharacter* HitCharacter,
+		const FVector_NetQuantize& TraceStart,
+		const FVector_NetQuantize100& InitialVelocity,
+		float HitTime
+	);
+
+	// Shotgun
 	FShotgunServerSideRewindResult ShotgunServerSideRewind(
 		const TArray<ABlasterCharacter*>& HitCharacters,
 		const FVector_NetQuantize& TraceStart,
@@ -92,7 +103,8 @@ public:
 	/*
 	 * Score requests
 	 */
-	
+
+	// HitScan
 	UFUNCTION(Server, Reliable)
 	void ServerScoreRequest(
 		ABlasterCharacter* HitCharacter,
@@ -102,6 +114,16 @@ public:
 		class AWeapon* DamageCauser
 	);
 
+	// Projectile
+	UFUNCTION(Server, Reliable)
+	void ProjectileServerScoreRequest(
+		ABlasterCharacter* HitCharacter,
+		const FVector_NetQuantize& TraceStart,
+		const FVector_NetQuantize100& InitialVelocity,
+		float HitTime
+	);
+
+	// Shotgun
 	UFUNCTION(Server, Reliable)
 	void ShotgunServerScoreRequest(
 	const TArray<ABlasterCharacter*>& HitCharacters,
@@ -125,12 +147,25 @@ protected:
 	/*
 	 * Confirm hits
 	 */
+	
+	// Hitscan
 	FServerSideRewindResult ConfirmHit(
 		const FFramePackage& Package,
 		ABlasterCharacter* HitCharacter,
 		const FVector_NetQuantize& TraceStart,
-		const FVector_NetQuantize& HitLocation);
+		const FVector_NetQuantize& HitLocation
+	);
+	
+	// Projectile
+	FServerSideRewindResult ProjectileConfirmHit(
+		const FFramePackage& Package,
+		ABlasterCharacter* HitCharacter,
+		const FVector_NetQuantize& TraceStart,
+		const FVector_NetQuantize100& InitialVelocity,
+		float HitTime
+	);
 
+	// Shotgun
 	FShotgunServerSideRewindResult ShotgunConfirmHit(
 		const TArray<FFramePackage>& FramePackages,
 		const FVector_NetQuantize& TraceStart,
