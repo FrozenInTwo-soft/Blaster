@@ -6,6 +6,8 @@
 #include "GameFramework/PlayerController.h"
 #include "BlasterPlayerController.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FHighPingDelegate, bool, bPingTooHigh);
+
 /**
  * 
  */
@@ -15,7 +17,6 @@ class BLASTER_API ABlasterPlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
-
 	void SetHUDHealth(float Health, float MaxHealth);
 	void SetHUDShield(float Shield, float MaxShield);
 	void SetHUDScore(float Score);
@@ -37,8 +38,9 @@ public:
 
 	float SingleTripTime = 0.f;
 
-protected:
+	FHighPingDelegate HighPingDelegate;
 
+protected:
 	virtual void BeginPlay() override;
 	void SetHUDTime();
 	void PollInit();
@@ -120,6 +122,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float CheckPingFrequency = 20.f;
+
+	UFUNCTION(Server, Reliable)
+	void ServerReportPingStatus(bool bHighPing);
 
 	UPROPERTY(EditAnywhere)
 	float HighPingThreshold = 50.f;
