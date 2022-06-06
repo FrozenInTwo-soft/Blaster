@@ -31,7 +31,6 @@ class BLASTER_API ABlasterHUD : public AHUD
 	GENERATED_BODY()
 
 public:
-
 	virtual void DrawHUD() override;
 
 	UPROPERTY(EditAnywhere, Category = "Player Stats")
@@ -49,13 +48,15 @@ public:
 	class UAnnouncement* Announcement;
 
 	void AddAnnouncement();
+	void AddElimAnnouncement(FString Attacker, FString Victim);
 	
 protected:
-
 	virtual void BeginPlay() override;
 
 private:
-
+	UPROPERTY()
+	class APlayerController* OwningPlayer;
+	
 	FHUDPackage HUDPackage;
 
 	void DrawCrosshair(UTexture2D* Texture, FVector2D ViewportCenter, FVector2D Spread, FLinearColor CrosshairColor);
@@ -63,7 +64,17 @@ private:
 	UPROPERTY(EditAnywhere)
 	float CrosshairSpreadMax = 16.f;
 
-public:
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<class UElimAnnouncement> ElimAnnouncementClass;
 
+	UPROPERTY(EditAnywhere)
+	float ElimAnnouncementTime = 1.5f;
+
+	UFUNCTION()
+	void ElimAnnouncementTimerFinished(UElimAnnouncement* MsgToRemove);
+
+	TArray<UElimAnnouncement*> ElimMessages;
+	
+public:
 	FORCEINLINE void SetHUDPackage(const FHUDPackage& Package) { HUDPackage = Package; }
 };
