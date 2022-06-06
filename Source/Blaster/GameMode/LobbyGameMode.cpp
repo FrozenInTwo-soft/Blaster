@@ -14,7 +14,6 @@ void ALobbyGameMode::PostLogin(APlayerController* NewPlayer)
 		UWorld* World = GetWorld();
 		if (World)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("----Moving from lobby to Gym----"));
 			bUseSeamlessTravel = true;
 			World->ServerTravel(FString("/Game/Maps/Gym?listen"));
 		}
