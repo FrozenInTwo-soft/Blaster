@@ -15,6 +15,8 @@ public class Blaster : ModuleRules
 			"Engine", 
 			"InputCore", 
 			"Niagara",
+			"Networking",
+			"Sockets",
 			"MultiplayerSessions",
 			"OnlineSubsystem",
 			"OnlineSubsystemSteam"

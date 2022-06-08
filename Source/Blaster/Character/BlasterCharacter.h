@@ -342,6 +342,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* AttachedGrenade;
+
+	UPROPERTY()
+	class ABlasterGameMode* BlasterGameMode;
 	
 public:
 	void SetOverlappingWeapon(AWeapon* Weapon);
