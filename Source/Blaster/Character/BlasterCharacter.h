@@ -373,4 +373,5 @@ public:
 	FORCEINLINE UBuffComponent* GetBuff() const { return Buff; }
 	bool IsLocallyReloading();
 	FORCEINLINE ULagCompensationComponent* GetLagCompensation() const { return LagComensation; }
+	FORCEINLINE bool IsHoldingFlag() const;
 };
