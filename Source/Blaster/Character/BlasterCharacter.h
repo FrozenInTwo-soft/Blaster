@@ -88,6 +88,8 @@ protected:
 	void PlayHitReactMontage();
 	void DropOrDestroyWeapon(class AWeapon* Weapon);
 	void DropOrDestroyWeapons();
+	void SetSpawnPoint();
+	void OnPlayerStateInitialized();
 
 	void DropWeaponPressed();
 
