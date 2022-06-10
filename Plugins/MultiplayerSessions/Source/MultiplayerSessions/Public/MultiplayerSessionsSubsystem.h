@@ -73,4 +73,7 @@ private:
 	bool bCreateSessionOnDestroy{ false };
 	int32 LastNumPublicConnections;
 	FString LastMatchType;
+
+	int32 DesiredNumPublicConnections{};
+	FString DesiredMatchType{};
 };
