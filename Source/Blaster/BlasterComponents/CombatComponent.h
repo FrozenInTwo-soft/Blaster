@@ -110,6 +110,7 @@ protected:
 	void DropEquippedWeapon();
 	void AttachActorToRightHand(AActor* ActorToAttach);
 	void AttachActorToLeftHand(AActor* ActorToAttach);
+	void AttachFlagToLeftHand(AWeapon* Flag);
 	void AttachActorToBackpack(AActor* ActorToAttach);
 	void UpdateCarriedAmmo();
 	void PlayEquipWeaponSound(AWeapon* WeaponToEquip);
@@ -142,6 +143,9 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	float BaseWalkSpeed;
+
+	UPROPERTY(EditAnywhere)
+	float FlagWalkSpeed;
 	
 	UPROPERTY(EditAnywhere)
 	float AimWalkSpeed;
@@ -248,8 +252,12 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<AWeapon> DefaultWeaponClass;
-	
+
+	UPROPERTY(ReplicatedUsing = OnRep_HoldingFlag)
 	bool bHoldingFlag = false;
+
+	UFUNCTION()
+	void OnRep_HoldingFlag();
 	
 public:	
 	FORCEINLINE int32 GetGrenades() const { return Grenades; }

@@ -38,6 +38,7 @@ void UCombatComponent::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Out
 	DOREPLIFETIME_CONDITION(UCombatComponent, CarriedAmmo, COND_OwnerOnly);
 	DOREPLIFETIME(UCombatComponent, CombatState);
 	DOREPLIFETIME(UCombatComponent, Grenades);
+	DOREPLIFETIME(UCombatComponent, bHoldingFlag);
 }
 
 void UCombatComponent::PickupAmmo(EWeaponType WeaponType, int32 AmmoAmount)
@@ -279,13 +280,25 @@ void UCombatComponent::EquipWeapon(AWeapon* WeaponToEquip)
 	if (Character == nullptr || WeaponToEquip == nullptr) return;
 	if (CombatState != ECombatState::ECS_Unoccupied) return;
 
-	if (EquippedWeapon != nullptr && SecondaryWeapon == nullptr)
+	if (WeaponToEquip->GetWeaponType() == EWeaponType::EWT_Flag)
 	{
-		EquipSecondaryWeapon(WeaponToEquip);
+		// TODO: set move speed back to normal when flag dropped.
+		Character->GetCharacterMovement()->MaxWalkSpeed = FlagWalkSpeed;
+		bHoldingFlag = true;
+		AttachFlagToLeftHand(WeaponToEquip);
+		WeaponToEquip->SetWeaponState(EWeaponState::EWS_Equipped);
+		WeaponToEquip->SetOwner(Character);
 	}
 	else
 	{
-		EquipPrimaryWeapon(WeaponToEquip);
+		if (EquippedWeapon != nullptr && SecondaryWeapon == nullptr)
+		{
+			EquipSecondaryWeapon(WeaponToEquip);
+		}
+		else
+		{
+			EquipPrimaryWeapon(WeaponToEquip);
+		}
 	}
 	
 	Character->GetCharacterMovement()->bOrientRotationToMovement = false;
@@ -304,6 +317,14 @@ void UCombatComponent::SwapWeapons()
 	AWeapon* TempWeapon = EquippedWeapon;
 	EquippedWeapon = SecondaryWeapon;
 	SecondaryWeapon = TempWeapon;
+}
+
+void UCombatComponent::OnRep_HoldingFlag()
+{
+	if (bHoldingFlag && Character && Character->IsLocallyControlled())
+	{
+		Character->GetCharacterMovement()->MaxWalkSpeed = FlagWalkSpeed;
+	}
 }
 
 bool UCombatComponent::ShouldSwapWeapons()
@@ -371,6 +392,16 @@ void UCombatComponent::AttachActorToLeftHand(AActor* ActorToAttach)
 	if (HandSocket)
 	{
 		HandSocket->AttachActor(ActorToAttach, Character->GetMesh());
+	}
+}
+
+void UCombatComponent::AttachFlagToLeftHand(AWeapon* Flag)
+{
+	if (Character == nullptr || Character->GetMesh() == nullptr || Flag == nullptr) return;
+	const USkeletalMeshSocket* HandSocket = Character->GetMesh()->GetSocketByName(FName("FlagSocket"));
+	if (HandSocket)
+	{
+		HandSocket->AttachActor(Flag, Character->GetMesh());
 	}
 }
 
