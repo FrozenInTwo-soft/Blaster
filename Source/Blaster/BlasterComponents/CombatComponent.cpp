@@ -285,9 +285,10 @@ void UCombatComponent::EquipWeapon(AWeapon* WeaponToEquip)
 		// TODO: set move speed back to normal when flag dropped.
 		Character->GetCharacterMovement()->MaxWalkSpeed = FlagWalkSpeed;
 		bHoldingFlag = true;
-		AttachFlagToLeftHand(WeaponToEquip);
 		WeaponToEquip->SetWeaponState(EWeaponState::EWS_Equipped);
+		AttachFlagToLeftHand(WeaponToEquip);
 		WeaponToEquip->SetOwner(Character);
+		TheFlag = WeaponToEquip;
 	}
 	else
 	{

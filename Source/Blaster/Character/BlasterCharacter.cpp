@@ -538,6 +538,10 @@ void ABlasterCharacter::DropOrDestroyWeapons()
 		{
 			DropOrDestroyWeapon(Combat->SecondaryWeapon);
 		}
+		if (Combat->TheFlag)
+		{
+			Combat->TheFlag->Dropped();
+		}
 	}
 }
 
@@ -634,6 +638,7 @@ void ABlasterCharacter::EquipButtonPressed()
 	if (bDisableGameplay) return;
 	if (Combat)
 	{
+		if (Combat->bHoldingFlag) return;
 		ServerEquipButtonPressed();
 	}
 }
@@ -651,6 +656,7 @@ void ABlasterCharacter::SwapButtonPressed()
 	if (bDisableGameplay) return;
 	if (Combat)
 	{
+		if (Combat->bHoldingFlag) return;
 		if (Combat->CombatState == ECombatState::ECS_Unoccupied) ServerSwapButtonPressed();
 		if (Combat->ShouldSwapWeapons() && !HasAuthority() && Combat->CombatState == ECombatState::ECS_Unoccupied)
 		{
@@ -689,6 +695,7 @@ void ABlasterCharacter::ReloadButtonPressed()
 	
 	if (Combat)
 	{
+		if (Combat->bHoldingFlag) return;
 		Combat->Reload();
 	}
 }
@@ -699,6 +706,7 @@ void ABlasterCharacter::AimButtonPressed()
 	
 	if (Combat)
 	{
+		if (Combat->bHoldingFlag) return;
 		Combat->SetAiming(true);
 	}
 }
@@ -709,6 +717,7 @@ void ABlasterCharacter::AimButtonReleased()
 	
 	if (Combat)
 	{
+		if (Combat->bHoldingFlag) return;
 		Combat->SetAiming(false);
 	}
 }
@@ -717,6 +726,7 @@ void ABlasterCharacter::GrenadeButtonPressed()
 {
 	if (Combat)
 	{
+		if (Combat->bHoldingFlag) return;
 		Combat->ThrowGrenade();
 	}
 }
@@ -828,6 +838,7 @@ void ABlasterCharacter::FireButtonPressed()
 	
 	if (Combat)
 	{
+		if (Combat->bHoldingFlag) return;
 		Combat->FireButtonPressed(true);
 	}
 }
@@ -838,6 +849,7 @@ void ABlasterCharacter::FireButtonReleased()
 	
 	if (Combat)
 	{
+		if (Combat->bHoldingFlag) return;
 		Combat->FireButtonPressed(false);
 	}
 }
@@ -1072,4 +1084,11 @@ bool ABlasterCharacter::IsHoldingFlag() const
 {
 	if (Combat == nullptr) return false;
 	return Combat->bHoldingFlag;
+}
+
+ETeam ABlasterCharacter::GetTeam()
+{
+	BlasterPlayerState = BlasterPlayerState == nullptr ? GetPlayerState<ABlasterPlayerState>() : BlasterPlayerState;
+	if (BlasterPlayerState == nullptr) return ETeam::ET_NoTeam;
+	return BlasterPlayerState->GetTeam();
 }
