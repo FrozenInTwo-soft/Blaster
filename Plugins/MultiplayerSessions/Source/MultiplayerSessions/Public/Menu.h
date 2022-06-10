@@ -58,7 +58,11 @@ private:
 	// The subsystem designed to handle online session functionality.
 	class UMultiplayerSessionsSubsystem* MultiplayerSessionsSubsystem;
 
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	int32 NumPublicConnections{4};
-	FString MatchType{TEXT("SterzyGame")};
+
+	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	FString MatchType{TEXT("FreeForAll")};
+	
 	FString PathToLobby{TEXT("")};
 };
