@@ -65,6 +65,9 @@ public:
 
 	void SetTeamColor(ETeam Team);
 
+	void ResetMoveSpeed();
+	void SetMoveSpeed(float MoveSpeed);
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -377,4 +380,5 @@ public:
 	FORCEINLINE ULagCompensationComponent* GetLagCompensation() const { return LagComensation; }
 	FORCEINLINE bool IsHoldingFlag() const;
 	ETeam GetTeam();
+	void SetHoldingFlag(bool bHolding);
 };

@@ -222,6 +222,22 @@ void ABlasterCharacter::SetTeamColor(ETeam Team)
 	}
 }
 
+void ABlasterCharacter::ResetMoveSpeed()
+{
+	if (Combat)
+	{
+		GetCharacterMovement()->MaxWalkSpeed = Combat->BaseWalkSpeed;
+		// Not manipulating crouch speed if that changes will uncomment and replace 400.f with crouch speed variable.
+		//GetCharacterMovement()->MaxWalkSpeedCrouched = 400.f; 
+		
+	}
+}
+
+void ABlasterCharacter::SetMoveSpeed(float MoveSpeed)
+{
+	GetCharacterMovement()->MaxWalkSpeed = MoveSpeed;
+}
+
 void ABlasterCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -884,7 +900,7 @@ void ABlasterCharacter::FireButtonReleased()
 	
 	if (Combat)
 	{
-		if (Combat->bHoldingFlag) return;
+		if (IsHoldingFlag()) return;
 		Combat->FireButtonPressed(false);
 	}
 }
@@ -1124,4 +1140,10 @@ ETeam ABlasterCharacter::GetTeam()
 	BlasterPlayerState = BlasterPlayerState == nullptr ? GetPlayerState<ABlasterPlayerState>() : BlasterPlayerState;
 	if (BlasterPlayerState == nullptr) return ETeam::ET_NoTeam;
 	return BlasterPlayerState->GetTeam();
+}
+
+void ABlasterCharacter::SetHoldingFlag(bool bHolding)
+{
+	if (Combat == nullptr) return;
+	Combat->bHoldingFlag = bHolding;
 }

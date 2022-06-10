@@ -283,7 +283,7 @@ void UCombatComponent::EquipWeapon(AWeapon* WeaponToEquip)
 	if (WeaponToEquip->GetWeaponType() == EWeaponType::EWT_Flag)
 	{
 		// TODO: set move speed back to normal when flag dropped.
-		Character->GetCharacterMovement()->MaxWalkSpeed = FlagWalkSpeed;
+		Character->SetMoveSpeed(FlagWalkSpeed);
 		bHoldingFlag = true;
 		WeaponToEquip->SetWeaponState(EWeaponState::EWS_Equipped);
 		AttachFlagToLeftHand(WeaponToEquip);
@@ -322,9 +322,17 @@ void UCombatComponent::SwapWeapons()
 
 void UCombatComponent::OnRep_HoldingFlag()
 {
-	if (bHoldingFlag && Character && Character->IsLocallyControlled())
+	if (Character && Character->IsLocallyControlled())
 	{
-		Character->GetCharacterMovement()->MaxWalkSpeed = FlagWalkSpeed;
+		if (bHoldingFlag)
+		{
+			Character->GetCharacterMovement()->MaxWalkSpeed = FlagWalkSpeed;
+		}
+		else
+		{
+			Character->GetCharacterMovement()->MaxWalkSpeed = BaseWalkSpeed;
+		}
+		
 	}
 }
 
