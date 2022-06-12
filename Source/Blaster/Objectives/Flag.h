@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Weapon.h"
+#include "Blaster/Weapon/Weapon.h"
 #include "Flag.generated.h"
 
 /**
@@ -18,7 +18,7 @@ public:
 	AFlag();
 	virtual void Dropped() override;
 	void ResetFlag();
-
+	
 protected:
 	virtual void OnEquipped() override;
 	virtual void OnDropped() override;
@@ -27,6 +27,9 @@ protected:
 private:
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* FlagMesh;
+
+	UPROPERTY(VisibleAnywhere)
+	class UBoxComponent* BoxComponent;
 
 	FTransform InitialTransform;
 	

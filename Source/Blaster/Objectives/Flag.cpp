@@ -6,13 +6,19 @@
 #include "Components/StaticMeshComponent.h"
 #include "Components/WidgetComponent.h"
 #include "Blaster/Character/BlasterCharacter.h"
+#include "Components/BoxComponent.h"
 
 AFlag::AFlag()
 {
+	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
+	SetRootComponent(BoxComponent);
+	BoxComponent->SetBoxExtent({5.f, 5.f, 0.f});
+	
 	FlagMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("FlagMesh"));
-	SetRootComponent(FlagMesh);
-	GetAreaSphere()->SetupAttachment(FlagMesh);
-	GetPickupWidget()->SetupAttachment(FlagMesh);
+	FlagMesh->SetupAttachment(RootComponent);
+	//SetRootComponent(FlagMesh);
+	GetAreaSphere()->SetupAttachment(RootComponent);
+	GetPickupWidget()->SetupAttachment(RootComponent);
 	FlagMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
 	FlagMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 }
@@ -25,6 +31,10 @@ void AFlag::Dropped()
 	SetOwner(nullptr);
 	BlasterOwnerCharacter = nullptr;
 	BlasterOwnerController = nullptr;
+	FRotator FlagRotation{0.f, GetActorRotation().Yaw, 0.f};
+	FlagMesh->SetWorldRotation(FlagRotation);
+
+	//TODO: start reset timer.
 }
 
 void AFlag::ResetFlag()

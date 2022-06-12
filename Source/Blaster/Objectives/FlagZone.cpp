@@ -3,7 +3,7 @@
 
 #include "FlagZone.h"
 #include "Components/SphereComponent.h"
-#include "Blaster/Weapon/Flag.h"
+#include "Flag.h"
 #include "Blaster/GameMode/CTFGameMode.h"
 
 AFlagZone::AFlagZone()

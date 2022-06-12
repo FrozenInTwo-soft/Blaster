@@ -2,7 +2,7 @@
 
 
 #include "CTFGameMode.h"
-#include "Blaster/Weapon/Flag.h"
+#include "Blaster/Objectives/Flag.h"
 #include "Blaster/Objectives/FlagZone.h"
 #include "Blaster/GameState/BlasterGameState.h"
 
