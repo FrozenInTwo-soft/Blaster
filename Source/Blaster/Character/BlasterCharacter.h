@@ -242,10 +242,10 @@ private:
 	 */
 
 	UPROPERTY(EditAnywhere, Category = "Player Stats")
-	float MaxHealth = 100.f;
+	float MaxHealth = 45.f;
 
 	UPROPERTY(ReplicatedUsing = OnRep_Health, VisibleAnywhere, Category = "Player Stats")
-	float Health = 100.f;
+	float Health = 45.f;
 
 	UFUNCTION()
 	void OnRep_Health(float LastHealth);
@@ -255,10 +255,10 @@ private:
 	 */
 	
 	UPROPERTY(EditAnywhere, Category = "Player Stats")
-	float MaxShield = 100.f;
+	float MaxShield = 70.f;
 
 	UPROPERTY(ReplicatedUsing = OnRep_Shield, EditAnywhere, Category = "Player Stats")
-	float Shield = 0.f;
+	float Shield = 70.f;
 
 	UFUNCTION()
 	void OnRep_Shield(float LastShield);
