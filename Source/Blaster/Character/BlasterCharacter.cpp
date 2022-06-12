@@ -707,7 +707,14 @@ void ABlasterCharacter::SwapButtonPressed()
 	if (bDisableGameplay) return;
 	if (Combat)
 	{
-		if (Combat->bHoldingFlag) return;
+		if (Combat->bHoldingFlag)
+		{
+			Combat->TheFlag->Dropped();
+			SetHoldingFlag(false);
+			SetOverlappingWeapon(nullptr);
+			ResetMoveSpeed();
+			Combat->TheFlag = nullptr;
+		}
 		if (Combat->CombatState == ECombatState::ECS_Unoccupied) ServerSwapButtonPressed();
 		if (Combat->ShouldSwapWeapons() && !HasAuthority() && Combat->CombatState == ECombatState::ECS_Unoccupied)
 		{
