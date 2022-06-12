@@ -18,10 +18,10 @@ public:
 	virtual void Fire(const FVector& HitTarget) override;
 	
 private:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Weapon|Properties")
 	TSubclassOf<class AProjectile> ProjectileClass;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Weapon|Properties")
 	TSubclassOf<AProjectile> ServerSideRewindProjectileClass;
 	
 };

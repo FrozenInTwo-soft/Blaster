@@ -48,42 +48,42 @@ public:
 
 	// Textures for the weapon crosshairs
 
-	UPROPERTY(EditAnywhere, Category = "Crosshairs")
+	UPROPERTY(EditAnywhere, Category = "Weapon|Crosshairs")
 	class UTexture2D* CrosshairsCenter;
 
-	UPROPERTY(EditAnywhere, Category = "Crosshairs")
+	UPROPERTY(EditAnywhere, Category = "Weapon|Crosshairs")
 	UTexture2D* CrosshairsLeft;
 
-	UPROPERTY(EditAnywhere, Category = "Crosshairs")
+	UPROPERTY(EditAnywhere, Category = "Weapon|Crosshairs")
 	UTexture2D* CrosshairsRight;
 
-	UPROPERTY(EditAnywhere, Category = "Crosshairs")
+	UPROPERTY(EditAnywhere, Category = "Weapon|Crosshairs")
 	UTexture2D* CrosshairsTop;
 
-	UPROPERTY(EditAnywhere, Category = "Crosshairs")
+	UPROPERTY(EditAnywhere, Category = "Weapon|Crosshairs")
 	UTexture2D* CrosshairsBottom;
 
 	/*
 	 * Zoomed FOV while Aiming
 	 */
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Weapon|Combat")
 	float ZoomedFOV = 30.f;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Weapon|Combat")
 	float ZoomInterpSpeed = 20.f;
 
 	/*
 	 * Firing Modes
 	 */
 
-	UPROPERTY(EditAnywhere, Category = "Combat")
+	UPROPERTY(EditAnywhere, Category = "Weapon|Combat")
 	float FireDelay = .15f;
 
-	UPROPERTY(EditAnywhere, Category = "Combat")
+	UPROPERTY(EditAnywhere, Category = "Weapon|Combat")
 	bool bAutomatic = true;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Weapon|Properties")
 	class USoundBase* EquipSound;
 
 	/*
@@ -93,10 +93,10 @@ public:
 
 	bool bDestroyWeapon = false;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Weapon|Combat")
 	EFireType FireType;
 
-	UPROPERTY(EditAnywhere, Category = "Weapon Scatter")
+	UPROPERTY(EditAnywhere, Category = "Weapon|Combat|Scatter")
 	bool bUseScatter = false;
 	
 protected:
@@ -128,19 +128,19 @@ protected:
 	 * Trace end with scatter
 	 */
 
-	UPROPERTY(EditAnywhere, Category = "Weapon Scatter")
+	UPROPERTY(EditAnywhere, Category = "Weapon|Combat|Scatter")
 	float DistanceToSphere = 800.f;
 
-	UPROPERTY(EditAnywhere, Category = "Weapon Scatter")
+	UPROPERTY(EditAnywhere, Category = "Weapon|Combat|Scatter")
 	float SphereRadius = 75.f;
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Weapon|Combat|Damage")
 	float Damage = 20.f;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Weapon|Combat|Damage")
 	float HeadShotDamage = 40.f;
 
-	UPROPERTY(Replicated, EditAnywhere)
+	UPROPERTY(Replicated, EditAnywhere, Category = "Weapon|Properties")
 	bool bUseServerSideRewind = false;
 	
 	UPROPERTY()
@@ -150,30 +150,30 @@ protected:
 
 	UFUNCTION()
 	void OnPingTooHigh(bool bPingTooHigh);
-	
+
 private:
-	UPROPERTY(VisibleAnywhere, Category = "Weapon Properties")
+	UPROPERTY(VisibleAnywhere, Category = "Weapon|Properties")
 	USkeletalMeshComponent* WeaponMesh;
 
-	UPROPERTY(VisibleAnywhere, Category = "Weapon Properties")
+	UPROPERTY(VisibleAnywhere, Category = "Weapon|Properties")
 	class USphereComponent* AreaSphere;
 
-	UPROPERTY(ReplicatedUsing = OnRep_WeaponState, VisibleAnywhere, Category = "Weapon Properties")
+	UPROPERTY(ReplicatedUsing = OnRep_WeaponState, VisibleAnywhere, Category = "Weapon|Properties")
 	EWeaponState WeaponState;
 
 	UFUNCTION()
 	void OnRep_WeaponState();
 
-	UPROPERTY(VisibleAnywhere, Category = "Weapon Properties")
+	UPROPERTY(VisibleAnywhere, Category = "Weapon|Properties")
 	class UWidgetComponent* PickupWidget;
 
-	UPROPERTY(EditAnywhere, Category = "Weapon Properties")
+	UPROPERTY(EditAnywhere, Category = "Weapon|Properties")
 	class UAnimationAsset* FireAnimation;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Weapon|Properties")
 	TSubclassOf<class ACasing> CasingClass;
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Weapon|Combat")
 	int32 Ammo;
 
 	UFUNCTION(Client, Reliable)
@@ -184,17 +184,17 @@ private:
 
 	void SpendRound();
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Weapon|Combat")
 	int32 MagCapacity;
 
 	// The number of unprocessed server requests for Ammo.
 	// Incremented in SpendRound, decremented in ClientUpdateAmmo
 	int32 Sequence = 0;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Weapon|Properties")
 	EWeaponType WeaponType;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Weapon|Properties")
 	ETeam Team;
 
 public:	

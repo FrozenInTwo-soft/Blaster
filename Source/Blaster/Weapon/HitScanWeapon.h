@@ -20,20 +20,20 @@ public:
 protected:
 	void WeaponTraceHit(const FVector& TraceStart, const FVector& HitTarget, FHitResult& OutHit);
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Weapon|FX")
 	class UParticleSystem* ImpactParticles;
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Weapon|FX")
 	USoundBase* HitSound;
 	
 private:
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Weapon|FX")
 	UParticleSystem* BeamParticles;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Weapon|FX")
 	UParticleSystem* MuzzleFlash;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Weapon|FX")
 	USoundBase* FireSound;
 
 	
