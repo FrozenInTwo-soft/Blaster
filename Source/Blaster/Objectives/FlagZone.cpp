@@ -2,9 +2,10 @@
 
 
 #include "FlagZone.h"
-#include "Components/SphereComponent.h"
 #include "Flag.h"
+#include "Blaster/Character/BlasterCharacter.h"
 #include "Blaster/GameMode/CTFGameMode.h"
+#include "Components/SphereComponent.h"
 
 AFlagZone::AFlagZone()
 {
@@ -26,9 +27,7 @@ void AFlagZone::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor
 	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	AFlag* OverlappingFlag = Cast<AFlag>(OtherActor);
-	// ABlasterCharacter* OverlappingCharacter = Cast<ABlasterCharacter>(OtherActor);
-	// if (OverlappingCharacter && OverlappingCharacter->IsHoldingFlag() && OverlappingCharacter->GetTeam() == Team)
-	if (OverlappingFlag && OverlappingFlag->GetTeam() != Team)
+	if (OverlappingFlag && OverlappingFlag->GetTeam() != Team && OverlappingFlag->GetOwner() != nullptr)
 	{
 		ACTFGameMode* GameMode = GetWorld()->GetAuthGameMode<ACTFGameMode>();
 		if (GameMode)

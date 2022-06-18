@@ -10,13 +10,13 @@
 
 AFlag::AFlag()
 {
-	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
-	SetRootComponent(BoxComponent);
-	BoxComponent->SetBoxExtent({5.f, 5.f, 0.f});
+	//BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
+	//SetRootComponent(BoxComponent);
+	//BoxComponent->SetBoxExtent({5.f, 5.f, 0.f});
 	
 	FlagMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("FlagMesh"));
-	FlagMesh->SetupAttachment(RootComponent);
-	//SetRootComponent(FlagMesh);
+	//FlagMesh->SetupAttachment(RootComponent);
+	SetRootComponent(FlagMesh);
 	GetAreaSphere()->SetupAttachment(RootComponent);
 	GetPickupWidget()->SetupAttachment(RootComponent);
 	FlagMesh->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
@@ -58,6 +58,7 @@ void AFlag::ResetFlag()
 	BlasterOwnerCharacter = nullptr;
 	BlasterOwnerController = nullptr;
 	SetActorTransform(InitialTransform);
+	FlagMesh->SetSimulatePhysics(false);
 }
 
 void AFlag::OnEquipped()

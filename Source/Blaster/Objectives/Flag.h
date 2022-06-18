@@ -28,9 +28,6 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	UStaticMeshComponent* FlagMesh;
 
-	UPROPERTY(VisibleAnywhere)
-	class UBoxComponent* BoxComponent;
-
 	FTransform InitialTransform;
 	
 public:
