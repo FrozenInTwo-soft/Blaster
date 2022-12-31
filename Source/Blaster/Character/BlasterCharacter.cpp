@@ -12,7 +12,7 @@
 #include "Blaster/Player/BlasterPlayerController.h"
 #include "Blaster/Player/BlasterPlayerState.h"
 #include "Blaster/Weapon/Weapon.h"
-#include "Blaster/Weapon/WeaponTypes.h"
+#include "Blaster/BlasterTypes/WeaponTypes.h"
 #include "Camera/CameraComponent.h"
 #include "Components/BoxComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -58,7 +58,7 @@ ABlasterCharacter::ABlasterCharacter()
 	Buff = CreateDefaultSubobject<UBuffComponent>(TEXT("BuffComponent"));
 	Buff->SetIsReplicated(true);
 
-	LagComensation = CreateDefaultSubobject<ULagCompensationComponent>(TEXT("LagCompensation"));
+	LagCompensation = CreateDefaultSubobject<ULagCompensationComponent>(TEXT("LagCompensation"));
 	
 	GetCharacterMovement()->NavAgentProps.bCanCrouch = true;
 	GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
@@ -303,12 +303,12 @@ void ABlasterCharacter::PostInitializeComponents()
 		);
 		Buff->SetInitialJumpVelocity(GetCharacterMovement()->JumpZVelocity);
 	}
-	if (LagComensation)
+	if (LagCompensation)
 	{
-		LagComensation->Character = this;
+		LagCompensation->Character = this;
 		if (Controller)
 		{
-			LagComensation->Controller = Cast<ABlasterPlayerController>(Controller);
+			LagCompensation->Controller = Cast<ABlasterPlayerController>(Controller);
 		}
 	}
 }
@@ -1120,7 +1120,6 @@ AWeapon* ABlasterCharacter::GetEquippedWeapon()
 FVector ABlasterCharacter::GetHitTarget() const
 {
 	if (Combat == nullptr) return FVector();
-
 	return Combat->HitTarget;
 }
 

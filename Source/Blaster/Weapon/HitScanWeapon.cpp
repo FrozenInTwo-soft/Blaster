@@ -3,7 +3,7 @@
 
 #include "HitScanWeapon.h"
 #include "DrawDebugHelpers.h"
-#include "WeaponTypes.h"
+#include "Blaster/BlasterTypes/WeaponTypes.h"
 #include "Blaster/BlasterComponents/LagCompensationComponent.h"
 #include "Blaster/Character/BlasterCharacter.h"
 #include "Blaster/Player/BlasterPlayerController.h"
@@ -11,7 +11,6 @@
 #include "Kismet/GameplayStatics.h"
 #include "Particles/ParticleSystemComponent.h"
 #include "Sound/SoundBase.h"
-
 
 void AHitScanWeapon::Fire(const FVector& HitTarget)
 {
@@ -31,8 +30,8 @@ void AHitScanWeapon::Fire(const FVector& HitTarget)
 		FHitResult FireHit;
 		WeaponTraceHit(Start, HitTarget, FireHit);
 		
-		ABlasterCharacter* BlasterCharacter = Cast<ABlasterCharacter>(FireHit.GetActor());
-		if (BlasterCharacter && InstigatorController)
+		ABlasterCharacter* HitCharacter = Cast<ABlasterCharacter>(FireHit.GetActor());
+		if (HitCharacter && InstigatorController)
 		{
 			bool bCauseAuthDamage = !bUseServerSideRewind || OwnerPawn->IsLocallyControlled();
 			if (HasAuthority() && bCauseAuthDamage)
@@ -40,7 +39,7 @@ void AHitScanWeapon::Fire(const FVector& HitTarget)
 				float DamageToCause = FireHit.BoneName.ToString() == FString("head") ? HeadShotDamage : Damage;
 				
 				UGameplayStatics::ApplyDamage(
-					BlasterCharacter,
+					HitCharacter,
 					DamageToCause,
 					InstigatorController,
 					this,
@@ -54,7 +53,7 @@ void AHitScanWeapon::Fire(const FVector& HitTarget)
 				if (BlasterOwnerController && BlasterOwnerCharacter && BlasterOwnerCharacter->GetLagCompensation() && BlasterOwnerCharacter->IsLocallyControlled())
 				{
 					BlasterOwnerCharacter->GetLagCompensation()->ServerScoreRequest(
-						BlasterCharacter,
+						HitCharacter,
 						Start,
 						HitTarget,
 						BlasterOwnerController->GetServerTime() - BlasterOwnerController->SingleTripTime

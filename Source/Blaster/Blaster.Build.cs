@@ -19,7 +19,8 @@ public class Blaster : ModuleRules
 			"Sockets",
 			"MultiplayerSessions",
 			"OnlineSubsystem",
-			"OnlineSubsystemSteam"
+			"OnlineSubsystemSteam",
+			"Blaster"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

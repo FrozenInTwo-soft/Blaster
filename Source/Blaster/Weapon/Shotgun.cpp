@@ -32,20 +32,20 @@ void AShotgun::FireShotgun(const TArray<FVector_NetQuantize>& HitTargets)
 			FHitResult FireHit;
 			WeaponTraceHit(Start, HitTarget, FireHit);
 
-			ABlasterCharacter* BlasterCharacter = Cast<ABlasterCharacter>(FireHit.GetActor());
-			if (BlasterCharacter)
+			ABlasterCharacter* HitCharacter = Cast<ABlasterCharacter>(FireHit.GetActor());
+			if (HitCharacter)
 			{
 				const bool bHeadShot = FireHit.BoneName.ToString() == FString("head");
 
 				if (bHeadShot)
 				{
-					if (HeadshotHitMap.Contains(BlasterCharacter)) HeadshotHitMap[BlasterCharacter]++;
-					else HeadshotHitMap.Emplace(BlasterCharacter, 1);
+					if (HeadshotHitMap.Contains(HitCharacter)) HeadshotHitMap[HitCharacter]++;
+					else HeadshotHitMap.Emplace(HitCharacter, 1);
 				}
 				else
 				{
-					if (HitMap.Contains(BlasterCharacter)) HitMap[BlasterCharacter]++;
-					else HitMap.Emplace(BlasterCharacter, 1);
+					if (HitMap.Contains(HitCharacter)) HitMap[HitCharacter]++;
+					else HitMap.Emplace(HitCharacter, 1);
 				}
 				
 				if (ImpactParticles)

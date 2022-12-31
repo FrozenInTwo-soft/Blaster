@@ -187,7 +187,7 @@ private:
 	class UBuffComponent* Buff;
 
 	UPROPERTY(VisibleAnywhere)
-	class ULagCompensationComponent* LagComensation;
+	class ULagCompensationComponent* LagCompensation;
 	
 	UFUNCTION(Server, Reliable)
 	void ServerEquipButtonPressed();
@@ -377,7 +377,7 @@ public:
 	FORCEINLINE UStaticMeshComponent* GetAttachedGrenade() const { return AttachedGrenade; }
 	FORCEINLINE UBuffComponent* GetBuff() const { return Buff; }
 	bool IsLocallyReloading();
-	FORCEINLINE ULagCompensationComponent* GetLagCompensation() const { return LagComensation; }
+	FORCEINLINE ULagCompensationComponent* GetLagCompensation() const { return LagCompensation; }
 	FORCEINLINE bool IsHoldingFlag() const;
 	ETeam GetTeam();
 	void SetHoldingFlag(bool bHolding);

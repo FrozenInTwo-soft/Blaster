@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Blaster/HUD/BlasterHUD.h"
-#include "Blaster/Weapon/WeaponTypes.h"
+#include "Blaster/BlasterTypes/WeaponTypes.h"
 #include "Blaster/BlasterTypes/CombatState.h"
 #include "Components/ActorComponent.h"
 #include "CombatComponent.generated.h"
@@ -118,6 +118,7 @@ protected:
 	void ShowAttachedGrenade(bool bShowGrenade);
 	void EquipPrimaryWeapon(AWeapon* WeaponToEquip);
 	void EquipSecondaryWeapon(AWeapon* WeaponToEquip);
+
 
 private:
 	UPROPERTY()

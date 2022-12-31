@@ -476,6 +476,14 @@ void UCombatComponent::ServerReload_Implementation()
 	if (!Character->IsLocallyControlled()) HandleReload();
 }
 
+void UCombatComponent::HandleReload()
+{
+	if (Character)
+	{
+		Character->PlayReloadMontage();
+	}
+}
+
 void UCombatComponent::FinishReloading()
 {
 	if (Character == nullptr) return;
@@ -629,14 +637,6 @@ void UCombatComponent::OnRep_CombatState()
 			Character->PlaySwapMontage();
 		}
 		break;
-	}
-}
-
-void UCombatComponent::HandleReload()
-{
-	if (Character)
-	{
-		Character->PlayReloadMontage();
 	}
 }
 
