@@ -61,6 +61,10 @@
 		{
 			"Name": "GeometryScripting",
 			"Enabled": true
+		},
+		{
+			"Name": "LyraExampleContent",
+			"Enabled": false
 		}
 	],
 	"TargetPlatforms": [
