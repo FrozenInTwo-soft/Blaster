@@ -3,10 +3,10 @@
 
 #include "BlasterAnimInstance.h"
 #include "BlasterCharacter.h"
+#include "Blaster/BlasterTypes/CombatState.h"
 #include "Blaster/Weapon/Weapon.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "Blaster/BlasterTypes/CombatState.h"
 
 void UBlasterAnimInstance::NativeInitializeAnimation()
 {
@@ -38,6 +38,7 @@ void UBlasterAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	TurningInPlace = BlasterCharacter->GetTurningInPlace();
 	bRotateRootBone = BlasterCharacter->ShouldRotateRootBone();
 	bElimmed = BlasterCharacter->IsElimmed();
+	bHoldingFlag = BlasterCharacter->IsHoldingFlag();
 
 	// Offset Yaw for Strafing
 	FRotator AimRotation = BlasterCharacter->GetBaseAimRotation();
@@ -59,7 +60,6 @@ void UBlasterAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	if (bWeaponEquipped && EquippedWeapon && EquippedWeapon->GetWeaponMesh() && BlasterCharacter->GetMesh())
 	{
 		LeftHandTransform = EquippedWeapon->GetWeaponMesh()->GetSocketTransform(FName("LeftHandSocket"), ERelativeTransformSpace::RTS_World);
-
 		FVector OutPosition;
 		FRotator OutRotation;
 		BlasterCharacter->GetMesh()->TransformToBoneSpace(FName("hand_r"), LeftHandTransform.GetLocation(), FRotator::ZeroRotator, OutPosition, OutRotation);
@@ -75,7 +75,14 @@ void UBlasterAnimInstance::NativeUpdateAnimation(float DeltaTime)
 		}
 	}
 
-	bUseFABRIK = BlasterCharacter->GetCombatState() != ECombatState::ECS_Reloading;
-	bUseAimOffsets = BlasterCharacter->GetCombatState() != ECombatState::ECS_Reloading && !BlasterCharacter->GetDisableGameplay();
-	bTransformRightHand = BlasterCharacter->GetCombatState() != ECombatState::ECS_Reloading && !BlasterCharacter->GetDisableGameplay();
+	bUseFABRIK = BlasterCharacter->GetCombatState() == ECombatState::ECS_Unoccupied;
+	bool bFabrikOverride = BlasterCharacter->IsLocallyControlled() &&
+		BlasterCharacter->GetCombatState() != ECombatState::ECS_ThrowingGrenade &&
+		BlasterCharacter->bFinishedSwapping; 
+	if (bFabrikOverride)
+	{
+		bUseFABRIK = !BlasterCharacter->IsLocallyReloading();
+	}
+	bUseAimOffsets = BlasterCharacter->GetCombatState() == ECombatState::ECS_Unoccupied && !BlasterCharacter->GetDisableGameplay();
+	bTransformRightHand = BlasterCharacter->GetCombatState() == ECombatState::ECS_Unoccupied && !BlasterCharacter->GetDisableGameplay();
 }

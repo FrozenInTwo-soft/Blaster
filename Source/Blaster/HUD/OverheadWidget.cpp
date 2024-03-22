@@ -43,8 +43,8 @@ void UOverheadWidget::ShowPlayerName(APawn* InPawn)
 	SetDisplayText(PlayerName);
 }
 
-void UOverheadWidget::OnLevelRemovedFromWorld(ULevel* InLevel, UWorld* InWorld)
+void UOverheadWidget::NativeDestruct()
 {
 	RemoveFromParent();
-	Super::OnLevelRemovedFromWorld(InLevel, InWorld);
+	Super::NativeDestruct();
 }

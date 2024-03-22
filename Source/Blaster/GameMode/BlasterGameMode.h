@@ -20,12 +20,13 @@ class BLASTER_API ABlasterGameMode : public AGameMode
 	GENERATED_BODY()
 
 public:
-
 	ABlasterGameMode();
 	virtual void Tick(float DeltaTime) override;
 	virtual void PlayerEliminated(class ABlasterCharacter* ElimmedCharacter, class ABlasterPlayerController* VictimController, ABlasterPlayerController* AttackerController);
 	virtual void RequestRespawn(ACharacter* ElimmedCharacter, AController* ElimmedController);
-
+	void PlayerLeftGame(class ABlasterPlayerState* PlayerLeaving);
+	virtual float CalculateDamage(AController* Attacker, AController* Victim, float BaseDamage);
+	
 	UPROPERTY(EditDefaultsOnly)
 	float WarmupTime = 30.f;
 
@@ -37,17 +38,16 @@ public:
 
 	float LevelStartingTime = 0.f;
 
-protected:
+	bool bTeamsMatch = false;
 
+protected:
 	virtual void BeginPlay() override;
 	virtual void OnMatchStateSet() override;
 	
 private:
-	
 	float CountdownTime = 0.f;
 
 public:
-
 	FORCEINLINE float GetCountdownTime() const { return CountdownTime; }
 };
 
