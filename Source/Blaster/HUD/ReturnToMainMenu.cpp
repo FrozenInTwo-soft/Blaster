@@ -12,8 +12,7 @@ void UReturnToMainMenu::MenuSetup()
 {
 	AddToViewport();
 	SetVisibility(ESlateVisibility::Visible);
-	bIsFocusable = true;
-	//Use this when moving to 5.2 SetIsFocusable(true);
+	SetIsFocusable(true);
 
 	UWorld* World = GetWorld();
 	if (World)

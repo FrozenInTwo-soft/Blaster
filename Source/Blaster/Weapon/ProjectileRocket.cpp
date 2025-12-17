@@ -7,7 +7,8 @@
 #include "Components/AudioComponent.h"
 #include "Components/BoxComponent.h"
 #include "RocketMovementComponent.h"
-#include "../../../../../UnrealEngine/Engine/Plugins/FX/Niagara/Source/Niagara/Public/NiagaraComponent.h"
+#include "NiagaraComponent.h"
+#include "NiagaraSystemInstanceController.h"
 
 AProjectileRocket::AProjectileRocket()
 {
