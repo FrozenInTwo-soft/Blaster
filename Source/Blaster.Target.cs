@@ -9,6 +9,8 @@ public class BlasterTarget : TargetRules
 	{
 		Type = TargetType.Game;
 		DefaultBuildSettings = BuildSettingsVersion.Latest;
+		IncludeOrderVersion = EngineIncludeOrderVersion.Latest;
+		
 		ExtraModuleNames.AddRange( new string[] { "Blaster" } );
 	}
 }
