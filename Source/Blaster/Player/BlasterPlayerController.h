@@ -7,6 +7,9 @@
 #include "GameFramework/PlayerState.h"
 #include "BlasterPlayerController.generated.h"
 
+class UInputAction;
+class UInputMappingContext;
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FHighPingDelegate, bool, bPingTooHigh);
 
 /**
@@ -48,6 +51,12 @@ public:
 	void BroadcastElim(APlayerState* Attacker, APlayerState* Victim);
 
 protected:
+	UPROPERTY(EditAnywhere, Category="Input|Action")
+	UInputAction* QuitAction;
+	
+	UPROPERTY(EditAnywhere, Category="Input|Input Mappings")
+	TArray<UInputMappingContext*> DefaultMappingContexts;
+	
 	virtual void BeginPlay() override;
 	void SetHUDTime();
 	void PollInit();

@@ -12,8 +12,9 @@ public class Blaster : ModuleRules
 		{
 			"Core", 
 			"CoreUObject", 
-			"Engine", 
+			"Engine",
 			"InputCore", 
+			"EnhancedInput",
 			"Niagara",
 			"Networking",
 			"Sockets",
@@ -24,16 +25,11 @@ public class Blaster : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });
 
-		PublicIncludePathModuleNames.AddRange(new string[]
+		PublicIncludePaths.AddRange(new string[]
 		{
-			"Blaster"
+			"Blaster",
 		});
-		
-		PrivateIncludePathModuleNames.AddRange(new string[]
-		{
-			"Blaster"
-		});
-		
+
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
 

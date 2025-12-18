@@ -11,6 +11,11 @@
 #include "Blaster/BlasterTypes/Team.h"
 #include "BlasterCharacter.generated.h"
 
+class UInputDataConfig;
+struct FInputActionValue;
+class UInputAction;
+class UInputComponent;
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnLeftGame);
 
 UCLASS()
@@ -21,7 +26,7 @@ class BLASTER_API ABlasterCharacter : public ACharacter, public IInteractWithCro
 public:
 	ABlasterCharacter();
 	virtual void Tick(float DeltaTime) override;
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 	virtual void PostInitializeComponents() override;
 
@@ -69,32 +74,42 @@ public:
 	void SetMoveSpeed(float MoveSpeed);
 
 protected:
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Input")
+	UInputDataConfig* InputActions;
+		
+	UPROPERTY(EditAnywhere, Category="Input|Options")
+	bool bToggleCrouch = true;
+	
 	virtual void BeginPlay() override;
 
-	void MoveForward(float Value);
-	void MoveRight(float Value);
-	void Turn(float Value);
-	void LookUp(float Value);
+	void MoveInput(const FInputActionValue& Value);
+	void DoMove(float Right, float Forward);
+	void LookInput(const FInputActionValue& Value);
+	void DoLook(float Yaw, float Pitch);
 	void EquipButtonPressed();
 	void SwapButtonPressed();
-	void CrouchButtonPressed();
+	void JumpStart();
+	void JumpEnd();
+	void CrouchStart();
+	void CrouchEnd();
 	void ReloadButtonPressed();
+	void DropWeaponPressed();
 	void AimButtonPressed();
 	void AimButtonReleased();
+	void FireButtonPressed();
+	void FireButtonReleased();
 	void GrenadeButtonPressed();
+	
 	void CalculateAO_Pitch();
 	void AimOffset(float DeltaTime);
 	void SimProxiesTurn();
-	virtual void Jump() override;
-	void FireButtonPressed();
-	void FireButtonReleased();
 	void PlayHitReactMontage();
 	void DropOrDestroyWeapon(class AWeapon* Weapon);
 	void DropOrDestroyWeapons();
 	void SetSpawnPoint();
 	void OnPlayerStateInitialized();
 
-	void DropWeaponPressed();
 
 	UFUNCTION()
 	void ReceiveDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, class AController* InstigatorController, AActor* DamageCauser);
